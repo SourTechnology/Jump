@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10110f">
+  <title>Jump! — Go straight to a website</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg:#10110f;
+      --panel:#191a17;
+      --lime:#d9ff70;
+      --mint:#8ef0c2;
+      --white:#f7f8f2;
+      --muted:#a4a79b;
+      --line:rgba(255,255,255,.13);
+      --display:system-ui,sans-serif;
+    }
+    * { box-sizing:border-box }
+    body {
+      margin:0; min-height:100vh; color:var(--white);
+      background:
+        radial-gradient(ellipse at 50% 34%,rgba(217,255,112,.09),transparent 28rem),
+        var(--bg);
+      font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+    }
+    button,input { font:inherit }
+    button { cursor:pointer }
+    .page { width:min(900px,calc(100% - 36px)); margin:auto }
+    header {
+      height:72px; display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .logo { font:900 1.55rem var(--display); letter-spacing:-1.5px }
+    .logo span { color:var(--lime) }
+    .tag { color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase }
+    main {
+      min-height:calc(100vh - 145px); display:flex; flex-direction:column;
+      align-items:center; justify-content:center; padding:50px 0 70px;
+    }
+    .hero { width:100%; text-align:center }
+    .eyebrow { color:var(--mint); font-size:.72rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase }
+    h1 { margin:13px 0 10px; font-size:clamp(4rem,14vw,8rem); line-height:.86; letter-spacing:-.09em }
+    h1 span { color:var(--lime) }
+    .intro { margin:18px auto 28px; max-width:480px; color:var(--muted); line-height:1.65 }
+    .search-form {
+      width:min(680px,100%); display:flex; align-items:center; gap:10px;
+      margin:0 auto; padding:8px; border:1px solid var(--line); border-radius:15px;
+      background:rgba(255,255,255,.045); box-shadow:0 20px 65px #0005;
+    }
+    .search-icon { padding-left:8px; color:var(--lime); font-size:1.3rem }
+    #siteInput {
+      width:100%; min-width:0; height:48px; color:var(--white); border:0; outline:0;
+      background:transparent; font-size:1rem;
+    }
+    #siteInput::placeholder { color:#777b70 }
+    .jump-button {
+      min-height:46px; padding:0 20px; border:0; border-radius:10px;
+      color:#171811; background:var(--lime); font-weight:900;
+      transition:transform .18s,filter .18s;
+    }
+    .jump-button:hover { transform:translateY(-2px); filter:brightness(1.07) }
+    .hint { min-height:22px; margin:11px 0 0; color:var(--muted); font-size:.78rem }
+    .hint.error { color:#ff8295 }
+    .examples { margin-top:30px }
+    .examples-title { margin-bottom:12px; color:var(--muted); font-size:.73rem; font-weight:700 }
+    .chips { display:flex; flex-wrap:wrap; justify-content:center; gap:8px }
+    .chip {
+      padding:9px 13px; color:#d9dbd2; border:1px solid var(--line);
+      border-radius:999px; background:rgba(255,255,255,.035); font-size:.8rem;
+    }
+    .chip:hover { color:var(--lime); border-color:rgba(217,255,112,.5) }
+    .recent { width:min(680px,100%); margin-top:42px }
+    .recent-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px }
+    .recent-head h2 { margin:0; font-size:.9rem }
+    .clear-button { color:var(--muted); border:0; background:transparent; font-size:.73rem }
+    .clear-button:hover { color:var(--white) }
+    .recent-list { display:grid; gap:7px }
+    .recent-item {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 14px; border:1px solid var(--line); border-radius:10px;
+      color:var(--white); background:rgba(255,255,255,.025); text-decoration:none;
+    }
+    .recent-item:hover { border-color:rgba(217,255,112,.45) }
+    .recent-domain { font-size:.84rem; font-weight:700; overflow-wrap:anywhere }
+    .recent-arrow { color:var(--lime) }
+    .empty { color:var(--muted); font-size:.8rem }
+    footer {
+      padding:16px 0 22px; border-top:1px solid var(--line);
+      color:var(--muted); font-size:.7rem; line-height:1.6; text-align:center;
+    }
+    footer strong { color:var(--lime) }
+    @media(max-width:520px) {
+      .page { width:calc(100% - 28px) }
+      .tag { font-size:.6rem }
+      .search-form { gap:6px }
+      .jump-button { padding:0 14px }
+      #siteInput { font-size:.9rem }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">Jump<span>!</span></div>
+      <div class="tag">Know the name. Go there.</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">The direct-to-site search</div>
+        <h1>JUMP<span>!</span></h1>
+        <p class="intro">
+          Know the website? Type its name or address and jump straight there.
+          Try <strong>example.com</strong>—not “example domain website.”
+        </p>
+
+        <form id="searchForm" class="search-form" autocomplete="off">
+          <span class="search-icon" aria-hidden="true">↗</span>
+          <input
+            id="siteInput"
+            type="text"
+            placeholder="Enter a website name or address"
+            aria-label="Website name or address"
+            spellcheck="false"
+            required
+          >
+          <button class="jump-button" type="submit">Jump →</button>
+        </form>
+        <p id="hint" class="hint" aria-live="polite">Examples: example.com, wikipedia.org, github.com</p>
+
+        <div class="examples">
+          <div class="examples-title">TRY A WEBSITE</div>
+          <div class="chips">
+            <button class="chip" type="button" data-site="example.com">example.com</button>
+            <button class="chip" type="button" data-site="wikipedia.org">wikipedia.org</button>
+            <button class="chip" type="button" data-site="github.com">github.com</button>
+            <button class="chip" type="button" data-site="youtube.com">youtube.com</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="recent">
+        <div class="recent-head">
+          <h2>Recently jumped</h2>
+          <button id="clearRecent" class="clear-button" type="button">Clear history</button>
+        </div>
+        <div id="recentList" class="recent-list"></div>
+      </section>
+    </main>
+
+    <footer>
+      <strong>Jump!</strong> takes you to the website you enter. It is not a general-purpose search engine and does not verify or endorse destinations.
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      const HISTORY_KEY = "jump_recent_sites_v1";
+      const form = document.getElementById("searchForm");
+      const input = document.getElementById("siteInput");
+      const hint = document.getElementById("hint");
+      const recentList = document.getElementById("recentList");
+
+      function normalizeAddress(value) {
+        let address = value.trim();
+
+        if (!address) throw new Error("Enter a website name or address.");
+
+        // Accept a domain or URL; default to HTTPS when no protocol is supplied.
+        if (!/^[a-zA-Z][a-zA-Z\d+.-]*:/.test(address)) {
+          address = "https://" + address;
+        }
+
+        let url;
+        try {
+          url = new URL(address);
+        } catch {
+          throw new Error("That doesn’t look like a valid website address.");
+        }
+
+        if (!["http:", "https:"].includes(url.protocol)) {
+          throw new Error("Please enter a website using http or https.");
+        }
+
+        if (!url.hostname.includes(".") || url.hostname.startsWith(".") || url.hostname.endsWith(".")) {
+          throw new Error("Enter a full website name, such as example.com.");
+        }
+
+        return url;
+      }
+
+      function getHistory() {
+        try {
+          const value = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+          return Array.isArray(value) ? value : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function renderHistory() {
+        const history = getHistory();
+        recentList.replaceChildren();
+
+        if (!history.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent = "Your recent websites will appear here.";
+          recentList.appendChild(empty);
+          return;
+        }
+
+        history.forEach((entry) => {
+          const link = document.createElement("a");
+          link.className = "recent-item";
+          link.href = entry.url;
+
+          const domain = document.createElement("span");
+          domain.className = "recent-domain";
+          domain.textContent = entry.label;
+
+          const arrow = document.createElement("span");
+          arrow.className = "recent-arrow";
+          arrow.textContent = "↗";
+
+          link.append(domain, arrow);
+          recentList.appendChild(link);
+        });
+      }
+
+      function jumpTo(value) {
+        try {
+          const url = normalizeAddress(value);
+          const entry = { label: url.host, url: url.href };
+          const history = getHistory().filter((item) => item.url !== entry.url);
+          history.unshift(entry);
+          localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 8)));
+          window.location.assign(url.href);
+        } catch (error) {
+          hint.textContent = error.message;
+          hint.classList.add("error");
+          input.focus();
+        }
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        jumpTo(input.value);
+      });
+
+      document.querySelectorAll("[data-site]").forEach((button) => {
+        button.addEventListener("click", () => {
+          input.value = button.dataset.site;
+          jumpTo(button.dataset.site);
+        });
+      });
+
+      input.addEventListener("input", () => {
+        hint.textContent = "Examples: example.com, wikipedia.org, github.com";
+        hint.classList.remove("error");
+      });
+
+      document.getElementById("clearRecent").addEventListener("click", () => {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+      });
+
+      renderHistory();
+      input.focus();
+    })();
+  </script>
+</body>
+</html>
